@@ -9,7 +9,6 @@ from learningAgents import ValueEstimationAgent
 class ValueIterationAgent(ValueEstimationAgent):
     """
         * Please read learningAgents.py before reading this.*
-
         A ValueIterationAgent takes a Markov decision process
         (see mdp.py) on initialization and runs value iteration
         for a given number of iterations using the supplied
@@ -20,7 +19,6 @@ class ValueIterationAgent(ValueEstimationAgent):
           Your value iteration agent should take an mdp on
           construction, run the indicated number of iterations
           and then act according to the resulting policy.
-
           Some useful mdp methods you will use:
               mdp.getStates()
               mdp.getPossibleActions(state)
@@ -33,7 +31,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.iterations = iterations
         self.values = util.Counter() # A Counter is a dict with default 0
         if (self.mdp != None):
-            self.doValueIteration()
+		self.doValueIteration()
 
     def computeQValueFromValues(self, state, action):
         """
@@ -82,7 +80,7 @@ class ValueIterationAgent(ValueEstimationAgent):
 	ListValues = util.Counter()
         for state in states:
 		PosibleActions = self.mdp.getPossibleActions(state)
-		 if self.mdp.isTerminal(state):
+		if self.mdp.isTerminal(state):
 			ListValues[state] = 0
 		else:
 			for action in PosibleActions:
@@ -144,7 +142,6 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
           The policy is the best action in the given state
           according to the values currently stored in self.values.
-
           You may break ties any way you see fit.  Note that if
           there are no legal actions, which is the case at the
           terminal state, you should return None.
