@@ -276,8 +276,16 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         successors = []
 
         #"*** YOUR CODE STARTS HERE ***"
+        #for posState in self.mdp.getTransitionStatesAndProbabilities(state, action)
+        nextStateFreq = self.getTransitionTable()[updateIndex][state] #posState
+	for itState in self.getTransitionTable()[updateIndex]
+        	totalFreq += self.getTransitionTable()[updateIndex][itState,action]
 
-        prob = self.getTransitionTable()[updateIndex][nextstate] / 
+	prob = nextStateFreq / totalFreq
+        
+        successors.append(state,prob) #posState
+
+	
 
         #"*** YOUR CODE FINISHES HERE ***"
 
