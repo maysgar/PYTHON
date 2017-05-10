@@ -78,9 +78,7 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
           Note that isTerminalFeatures expects to have "posX" and "FoodX" in particular positions
           
           Returns two tuples: tuple of features and tuple of the features names.
-
           Features must be loaded in the self.stateFeatures variable
-
           List of Features:
               'posX','posY': Position of Pac-man
               'foodX','foodY': Relative position of closest food
@@ -105,7 +103,6 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
     def addStateLow(self, stateH, stateMap):
         """
           Adds a new pair stateH stateL to the dictionary of states
-
         """
         # print "Added", stateH
         if not stateH in self.states.keys():
@@ -122,7 +119,6 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
           
           The states received as parameters have a low level representation. The transition function
           should be stored over the high level (simplified) representation
-
         """
         # Change the representation to the simplified one
         
@@ -144,20 +140,19 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         updateIndex = (state, action)
 
 	if self.getTransitionTable()[updateIndex] == 0 :
-		self.transitionTable()[updateIndex] = util.Counter()
+		self.getTransitionTable()[updateIndex] = util.Counter()
         
 	if nextstate not in self.getTransitionTable()[updateIndex]:
-		self.transitionTable()[updateIndex][nextstate] = 1
+		self.getTransitionTable()[updateIndex][nextstate] = 1
 
         else: 
-		self.transitionTable()[updateIndex][nextstate] += 1
+		self.getTransitionTable()[updateIndex][nextstate] += 1
 	
         #"*** YOUR CODE FINISHES HERE ***"
 
     def getPossibleActions(self, state):
         """
         Returns list of valid actions for 'state'.
-
         Note that you can request moves into walls and
         that "exit" states transition to the terminal
         state under the special action "done".
@@ -187,7 +182,6 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
     def getReward(self, state, action, nextState):
         """
         Get reward for state, action, nextState transition.
-
         """
         return self.getAverageReward(nextState) - self.getAverageReward(state)
 
@@ -280,23 +274,16 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         #"*** YOUR CODE STARTS HERE ***"
 
 	updateIndex = (state, action)
-	total = 0
 
+	total = 0
         #We make sure the transition table dictionary is initialized
 	if self.getTransitionTable()[updateIndex] == 0 :
-		self.transitionTable()[updateIndex] = util.Counter()
+		self.getTransitionTable()[updateIndex] = util.Counter()
 
-	for next in self.getTransitionTable()[updateIndex]:
-		total += self.getTransitionTable()[updateIndex][next]
+	for nextState in self.getTransitionTable()[updateIndex].keys():
+		prob = (self.getTransitionTable()[updateIndex][next])/(float(sum(self.getTransitionTable()[updateIndex].values())))
+		successors.append((state, prob))
 
-	for next in self.getTransitionTable()[updateIndex]:
-		prob = (self.getTransitionTable()[updateIndex][next])/(total)
-		successors.append(state,prob) #posState
-
-	
         #"*** YOUR CODE FINISHES HERE ***"
 
         return successors
-
-
-
