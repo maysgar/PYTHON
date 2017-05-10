@@ -147,13 +147,12 @@ class ValueIterationAgent(ValueEstimationAgent):
 		return None
 
 	maxDelta2, policy = float("-inf"), None
-	qvalue3 = 0
+	#qvalue3 = 0
 
 	for action in self.mdp.getPossibleActions(state):
-		qvalue3 = self.computeQValueFromValues(state, action)
-		if qvalue3 > maxDelta2:
-			maxDelta2 = qvalue3
-			policy = action
+		Q = util.Counter()
+		Q[action] = self.computeQValueFromValues(state, action)
+		policy = Q.argMax()
 
 	return policy
 
