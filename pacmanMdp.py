@@ -36,6 +36,7 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
 
         # Transition function (data structure required for the transition function)
         #*** YOUR CODE STARTS HERE ***"
+	
         
         # This variable MUST be used to reference your transition table so
         # it can be saved and loaded from file
@@ -126,12 +127,13 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         # Change the representation to the simplified one
         
         # Some of these features will not be present in the state if there are no ghosts
-        state,state_names=self.stateToHigh(initialMap)
-        nextstate,nextstate_names=self.stateToHigh(nextMap)
+        state, state_names = self.stateToHigh(initialMap)
+        nextstate, nextstate_names = self.stateToHigh(nextMap)
         
         # Set the start state in the first call
         if len(self.states.keys())== 0:
             self.setStartState(state)
+
         # Add the received states to self.states
         self.addStateLow(state, initialMap)
         self.addStateLow(nextstate, nextMap)
@@ -140,16 +142,16 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         #"*** YOUR CODE STARTS HERE ***"
 
         updateIndex = (state, action)
+
 	if self.getTransitionTable()[updateIndex] == 0 :
-		self.getTransitionTable()[updateIndex] = util.Counter()
+		self.transitionTable()[updateIndex] = util.Counter()
         
-	if nextstate not in self.getTransitionTable()[updateIndex] :
-		self.getTransitionTable()[updateIndex][nextstate] = 1
-        else : 
-		
-		self.getTransitionTable()[updateIndex][nextstate] += 1
+	if nextstate not in self.getTransitionTable()[updateIndex]:
+		self.transitionTable()[updateIndex][nextstate] = 1
+
+        else: 
+		self.transitionTable()[updateIndex][nextstate] += 1
 	
-        
         #"*** YOUR CODE FINISHES HERE ***"
 
     def getPossibleActions(self, state):
@@ -276,17 +278,22 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         successors = []
 
         #"*** YOUR CODE STARTS HERE ***"
-        #for posState in self.mdp.getTransitionStatesAndProbabilities(state, action)
-        nextStateFreq = self.getTransitionTable()[updateIndex][state] #posState
-	for itState in self.getTransitionTable()[updateIndex]
-        	totalFreq += self.getTransitionTable()[updateIndex][itState,action]
 
-	prob = nextStateFreq / totalFreq
-        
-        successors.append(state,prob) #posState
+	updateIndex = (state, action)
+	total = 0
+
+        #We make sure the transition table dictionary is initialized
+	if self.getTransitionTable()[updateIndex] == 0 :
+		self.transitionTable()[updateIndex] = util.Counter()
+
+	for next in self.getTransitionTable()[updateIndex]:
+		total += self.getTransitionTable()[updateIndex][next]
+
+	for next in self.getTransitionTable()[updateIndex]:
+		prob = (self.getTransitionTable()[updateIndex][next])/(total)
+		successors.append(state,prob) #posState
 
 	
-
         #"*** YOUR CODE FINISHES HERE ***"
 
         return successors
