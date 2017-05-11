@@ -179,3 +179,4 @@ class ValueIterationAgent(ValueEstimationAgent):
         else:
             # random action
             return util.random.choice(stateL.getLegalActions()) 
+
