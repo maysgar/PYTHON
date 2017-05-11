@@ -35,7 +35,8 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
         self.stateFeatures=['posX','posY','IncFoodX','IncFoodY','IncGhostX','IncGhostY']
 
         # Transition function (data structure required for the transition function)
-        #*** YOUR CODE STARTS HERE ***"
+        
+	#*** YOUR CODE STARTS HERE ***"
 	
         
         # This variable MUST be used to reference your transition table so
@@ -137,16 +138,14 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
 
         #"*** YOUR CODE STARTS HERE ***"
 
-        updateIndex = (state, action)
-
-	if self.getTransitionTable()[updateIndex] == 0 :
-		self.getTransitionTable()[updateIndex] = util.Counter()
+	if self.getTransitionTable()[(state, action)] == 0 :
+		self.getTransitionTable()[(state, action)] = util.Counter()
         
-	if nextstate not in self.getTransitionTable()[updateIndex]:
-		self.getTransitionTable()[updateIndex][nextstate] = 1
+	if nextstate not in self.getTransitionTable()[(state, action)]:
+		self.getTransitionTable()[(state, action)][nextstate] = 1
 
         else: 
-		self.getTransitionTable()[updateIndex][nextstate] += 1
+		self.getTransitionTable()[(state, action)][nextstate] += 1
 	
         #"*** YOUR CODE FINISHES HERE ***"
 
@@ -273,17 +272,15 @@ class PacmanMdp(mdp.MarkovDecisionProcess):
 
         #"*** YOUR CODE STARTS HERE ***"
 
-	updateIndex = (state, action)
-
-	total = 0
         #We make sure the transition table dictionary is initialized
-	if self.getTransitionTable()[updateIndex] == 0 :
-		self.getTransitionTable()[updateIndex] = util.Counter()
+	if self.getTransitionTable()[(state, action)] == 0 :
+		self.getTransitionTable()[(state, action)] = util.Counter()
 
-	for nextState in self.getTransitionTable()[updateIndex].keys():
-		prob = (self.getTransitionTable()[updateIndex][next])/(float(sum(self.getTransitionTable()[updateIndex].values())))
-		successors.append((state, prob))
+	for next in self.getTransitionTable()[(state, action)].keys():
+ 		prob = (self.getTransitionTable()[(state, action)][next])/(float(sum(self.getTransitionTable()[(state, action)].values())))
+ 		successors.append((next, prob))
 
         #"*** YOUR CODE FINISHES HERE ***"
 
         return successors
+
